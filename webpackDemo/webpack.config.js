@@ -1,10 +1,33 @@
 const path = require('path');
+// 生成html文件
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// 每次打包时先清空dist文件夹
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.js',
+  mode: 'development',
+  entry: {
+    app: './src/index.js'
+  },
+  devServer: {
+    contentBase: './dist',
+    hot: true
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: '管理输出'
+    }),
+    new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   output: {
-    filename: './bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].bundel.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
+  },
+  optimization: {
+    usedExports: true,
   },
   module: {
     rules: [
